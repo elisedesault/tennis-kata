@@ -17,7 +17,7 @@ data class Game(val playerOne: Player, val playerTwo: Player) {
         }
     }
 
-    private fun convertScore(score: Int):String {
+    private fun convertScore(score: Int): String {
         return when (score) {
             0 -> "0"
             1 -> "15"
@@ -41,20 +41,20 @@ data class Game(val playerOne: Player, val playerTwo: Player) {
         return GameStatus.SCORE
     }
 
-    private fun isAdvantage(scorePlayerOne: Int, scorePlayerTwo: Int): Boolean {
-        return (scorePlayerOne >= 4 && scorePlayerOne - scorePlayerTwo == 1)
-                || (scorePlayerTwo >= 4 && scorePlayerTwo - scorePlayerOne == 1)
-    }
-
-    private fun isDeuce(scorePlayerOne: Int, scorePlayerTwo: Int) =
-            scorePlayerOne > 3 && scorePlayerOne == scorePlayerTwo
-
     private fun hasWon(scorePlayerOne: Int, scorePlayerTwo: Int): Boolean {
-        return ((scorePlayerOne == 4 && scorePlayerTwo < 4)
-                || (scorePlayerTwo == 4 && scorePlayerOne < 4)
+        return ((scorePlayerOne == 4 && scorePlayerTwo < 3)
+                || (scorePlayerTwo == 4 && scorePlayerOne < 3)
                 || (scorePlayerOne > 4 && scorePlayerOne - scorePlayerTwo == 2)
                 || (scorePlayerTwo > 4 && scorePlayerTwo - scorePlayerOne == 2))
     }
+
+    private fun isAdvantage(scorePlayerOne: Int, scorePlayerTwo: Int): Boolean {
+        return (scorePlayerOne >= 4 && scorePlayerTwo >= 3 && scorePlayerOne - scorePlayerTwo == 1)
+                || (scorePlayerTwo >= 4 &&scorePlayerOne >= 3 && scorePlayerTwo - scorePlayerOne == 1)
+    }
+
+    private fun isDeuce(scorePlayerOne: Int, scorePlayerTwo: Int) =
+            scorePlayerOne >= 3 && scorePlayerOne == scorePlayerTwo
 
     fun getWinner(): Player {
         if (!hasWon(playerOne.score, playerTwo.score)) {
@@ -66,5 +66,10 @@ data class Game(val playerOne: Player, val playerTwo: Player) {
         } else {
             playerTwo
         }
+    }
+
+    fun resetPlayersScore() {
+        playerOne.score = 0
+        playerTwo.score = 0
     }
 }
