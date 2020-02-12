@@ -1,6 +1,6 @@
 package com.bnppf.tenniskataapp
 
-data class Game(val playerOne: Player, val playerTwo: Player) {
+class Game(val playerOne: Player, val playerTwo: Player) {
 
     fun increaseScore(player: Player) {
         player.score++

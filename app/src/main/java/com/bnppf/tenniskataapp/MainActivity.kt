@@ -47,10 +47,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun Button.play(game: Game, playerTwo: Player, score: TextView) {
+    private fun Button.play(game: Game, player: Player, score: TextView) {
         setOnClickListener {
             kotlin.run {
-                game.increaseScore(playerTwo)
+                game.increaseScore(player)
                 if (game.checkGameStatus() == GameStatus.WIN) {
                     buttonsGroup.visibility = View.GONE
                     newGameButton.visibility = View.VISIBLE
