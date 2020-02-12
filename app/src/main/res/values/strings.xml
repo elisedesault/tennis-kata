@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TennisKataApp</string>
-    <string name="start_instructions">Please select 2 players to start the game</string>
     <string name="welcome_title">Welcome to Tennis Kata</string>
+    <string name="instructions_message">Click on one of the player\'s button to increase their points</string>
+    <string name="score_label">Score</string>
+    <string name="start_new_game">Start new game</string>
 </resources>
