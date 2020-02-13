@@ -1,6 +1,6 @@
 package com.bnppf.tenniskataapp
 
-class Game(val playerOne: Player, val playerTwo: Player) {
+class Game(private val playerOne: Player, private val playerTwo: Player) {
 
     fun increaseScore(player: Player) {
         player.score++
@@ -9,7 +9,7 @@ class Game(val playerOne: Player, val playerTwo: Player) {
     fun getScore(): String {
         return when (checkGameStatus()) {
             GameStatus.WIN -> "${getWinner().playerName} won"
-            GameStatus.ADVANTAGE -> "Advantage"
+            GameStatus.ADVANTAGE -> "Advantage ${getWinner().playerName}"
             GameStatus.DEUCE -> "Deuce"
             GameStatus.SCORE -> {
                 "${convertScore(playerOne.score)} / ${convertScore(playerTwo.score)}"
@@ -42,16 +42,25 @@ class Game(val playerOne: Player, val playerTwo: Player) {
     }
 
     private fun hasWon(scorePlayerOne: Int, scorePlayerTwo: Int): Boolean {
-        return ((scorePlayerOne == 4 && scorePlayerTwo < 3)
-                || (scorePlayerTwo == 4 && scorePlayerOne < 3)
-                || (scorePlayerOne > 4 && scorePlayerOne - scorePlayerTwo == 2)
-                || (scorePlayerTwo > 4 && scorePlayerTwo - scorePlayerOne == 2))
+        return (hasMorePoints(scorePlayerOne, scorePlayerTwo)
+                || hasMorePoints(scorePlayerTwo, scorePlayerOne)
+                || hasTwoPointsMore(scorePlayerOne, scorePlayerTwo)
+                || hasTwoPointsMore(scorePlayerTwo, scorePlayerOne))
     }
 
+    private fun hasTwoPointsMore(scorePlayerOne: Int, scorePlayerTwo: Int) =
+            scorePlayerOne > 4 && scorePlayerOne - scorePlayerTwo == 2
+
+    private fun hasMorePoints(scorePlayerOne: Int, scorePlayerTwo: Int) =
+            scorePlayerOne == 4 && scorePlayerTwo < 3
+
     private fun isAdvantage(scorePlayerOne: Int, scorePlayerTwo: Int): Boolean {
-        return (scorePlayerOne >= 4 && scorePlayerTwo >= 3 && scorePlayerOne - scorePlayerTwo == 1)
-                || (scorePlayerTwo >= 4 &&scorePlayerOne >= 3 && scorePlayerTwo - scorePlayerOne == 1)
+        return (testAdvantage(scorePlayerOne, scorePlayerTwo))
+                || testAdvantage(scorePlayerTwo, scorePlayerOne)
     }
+
+    private fun testAdvantage(scorePlayerOne: Int, scorePlayerTwo: Int) =
+            scorePlayerOne >= 4 && scorePlayerTwo >= 3 && scorePlayerOne - scorePlayerTwo == 1
 
     private fun isDeuce(scorePlayerOne: Int, scorePlayerTwo: Int) =
             scorePlayerOne >= 3 && scorePlayerOne == scorePlayerTwo
